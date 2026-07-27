@@ -1,0 +1,42 @@
+.github/workflows/android.yml
+
+name: Build Android APK
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libncurses5-dev libbz2-dev libreadline-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libssl-dev xorg-dev unzip g++-multilib gcc-multilib lib32z1-dev scons
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Buildozer & Cython
+        run: |
+          pip install --upgrade pip
+          pip install buildozer cython kivy
+
+      - name: Auto-Initialize Buildozer
+        run: yes y | buildozer init
+
+      - name: Configure Buildozer Requirements
+        run: |
+          sed -i 's/requirements = python3,kivy/requirements = python3,kivy/' buildozer.spec
+
+      - name: Compile Package with Buildozer
+        run: yes y | buildozer android debug
+        
+      - name: Upload Finished APK Asset
+        uses: actions/upload-artifact@v4
+        with:
+          name: SiliconCruxMobileApp
+          path: bin/*.apk

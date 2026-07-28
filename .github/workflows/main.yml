@@ -30,5 +30,11 @@ jobs:
 
     - name: Run Buildozer Engine
       run: |
-        buildozer android clean
+        # Run straight into the debug compilation loop safely
         yes | buildozer android debug
+
+    - name: Export APK Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: SiliconCruxCore-APK
+        path: bin/*.apk

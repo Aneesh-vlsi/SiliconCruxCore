@@ -30,8 +30,9 @@ jobs:
 
     - name: Run Buildozer Engine
       run: |
-        # Run straight into the debug compilation loop safely
         yes | buildozer android debug
+      env:
+        P4A_RELEASE: "stable"
 
     - name: Export APK Artifact
       uses: actions/upload-artifact@v4

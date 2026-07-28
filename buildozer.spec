@@ -18,7 +18,8 @@ source.include_exts = py,png,jpg,kv,atlas
 
 # (list) Application requirements
 # Add any specialized scientific/math libraries here if eda_engine uses them (e.g., numpy)
-requirements = python3,kivy,kivymd
+requirements = python3==3.11.9,kivy,kivymd
+
 
 # (string) Custom source folders if any
 # source.include_folders = 
